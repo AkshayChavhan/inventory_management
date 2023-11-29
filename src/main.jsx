@@ -9,7 +9,8 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import Layout from "./component/Layout.jsx";
-import { About, Contact, Home, Login } from "./component/index.js";
+import { About, Contact, Home, Login , Signup } from "./component/index.js";
+
 
 
 // // One way of routing
@@ -44,6 +45,9 @@ const router = createBrowserRouter(
       />
       <Route path="login"
       element={<Login /> }
+      />
+       <Route path="signup"
+      element={<Signup /> }
       />
     </Route>
   )

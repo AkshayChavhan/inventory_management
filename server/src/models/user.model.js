@@ -47,6 +47,9 @@ const userSchema = new mongoose.Schema({
     contact: phoneSchema,
     position: {
         type: String,
+        enum: [
+            "staff2" ,"staff2","jr_typerwriter" ,"assistant" ,"manager","ass_manager" ,"night_manager","doctor","phd","owner","executive","chief_executive"
+        ],
         required: [true, "Position is required"] 
     },
     refreshToken : {

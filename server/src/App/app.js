@@ -1,10 +1,13 @@
 import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
 
 const app = express();
-
+app.use(cors());
 // MIDDLEWARE 
 app.use(express.json());
-
+// Middleware to parse JSON requests
+app.use(bodyParser.json());
 
 
 // routes imports
