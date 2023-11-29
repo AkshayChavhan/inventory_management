@@ -6,7 +6,7 @@ const phoneSchema = mongoose.Schema({
     countryCode: { type: Number, required: false },
     phone: { type: Number, required: false },
     mobile: { type: Number, required: false },
-});
+}, { _id: false });
 
 const addressTempSchema = mongoose.Schema({
     address1: { type: String, required: false },
@@ -15,7 +15,7 @@ const addressTempSchema = mongoose.Schema({
     state: { type: String, required: false },
     country: { type: String, required: false },
     postalCode: { type: Number, required: false },
-});
+}, { _id: false });
 
 const addressPermenentSchema = mongoose.Schema({
     address1: { type: String, required: false },
@@ -24,22 +24,22 @@ const addressPermenentSchema = mongoose.Schema({
     state: { type: String, required: false },
     country: { type: String, required: false },
     postalCode: { type: Number, required: false },
-});
+}, { _id: false });
 
 
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: [true, "password is required"],
+        required: [true, "Username is required"],
         unique: true 
     },
     password: {
         type: String,
-        required: [true, "password is required"] 
+        required: [true, "Password is required"] 
     },
     email: {
         type: String,
-        required: [true, "password is required"] ,
+        required: [true, "Email is required"] ,
         unique: true 
     },
     tempAddress: addressTempSchema,
