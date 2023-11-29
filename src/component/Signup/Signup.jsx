@@ -19,9 +19,8 @@ function Signup() {
     API
       .post("/user/register",data)
       .then((response) => {
-        console.log(response);
         // Handle the successful response
-        // setData(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         // Handle errors
