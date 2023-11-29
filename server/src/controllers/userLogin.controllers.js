@@ -50,4 +50,29 @@ const userRegister = async (req, res) => {
     }
 }
 
-export { userRegister }
+const userLogin = async (req, res) => {
+    try {
+        const {
+            password,
+            email,
+        } = req.body;
+        console.log(password,email);
+        if (!password |!email) {
+            return res.status(401).
+                json({ message: "Please enter the required details" })
+        }
+
+        const existingUser = await User.findOne({
+            $or: [{ email }]
+        })
+
+        return res.status(200).json({ message: "All good." })
+
+    } catch (error) {
+        console.log(`Error occurs in controller as ${error}`);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
+
+export { userRegister , userLogin }

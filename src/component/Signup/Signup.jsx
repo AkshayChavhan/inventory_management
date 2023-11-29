@@ -19,9 +19,9 @@ function Signup() {
     API
       .post("/user/register",data)
       .then((response) => {
-        console.log(response);
         // Handle the successful response
-        // setData(response.data);
+        console.log(response.data);
+        navigate("/login");
       })
       .catch((error) => {
         // Handle errors
@@ -50,7 +50,7 @@ function Signup() {
           </span>
         </div>
         <h2 className="text-center text-2xl font-bold leading-tight">
-          Sign in to your account
+          Sign Up
         </h2>
         <p className="mt-2 text-center text-base text-black/60">
           Already have an account?&nbsp;
