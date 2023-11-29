@@ -66,7 +66,23 @@ const userLogin = async (req, res) => {
             $or: [{ email }]
         })
 
-        return res.status(200).json({ message: "All good." })
+        // Check if the password is correct
+        const isPasswordCorrect = await existingUser.isPasswordCorrect(password);
+
+        if (!isPasswordCorrect) {
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
+
+        // Generate tokens
+        const accessToken = existingUser.generateAccessToken();
+        const refreshToken = existingUser.generateRefreshToken();
+
+        return res.status(200).json({
+            message: "Login successful",
+            accessToken,
+            username : existingUser.username,
+            refreshToken,
+        });
 
     } catch (error) {
         console.log(`Error occurs in controller as ${error}`);

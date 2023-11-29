@@ -8,10 +8,10 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import Layout from "./component/Layout.jsx";
-import { About, Contact, Home, Login , Signup } from "./component/index.js";
-
-
+import ProtectedLayout from "./component/ProtectedLayout.jsx";
+import { About, Contact, Home, Login, Signup } from "./component/index.js";
+import { Provider } from "react-redux";
+import store from "./redux/store.js";
 
 // // One way of routing
 // const router = createBrowserRouter([
@@ -34,29 +34,40 @@ import { About, Contact, Home, Login , Signup } from "./component/index.js";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
-      <Route path="/"
-      element={<Layout ><Home /> </Layout>}
+      <Route
+        path="/"
+        element={
+          <ProtectedLayout>
+            <Home />{" "}
+          </ProtectedLayout>
+        }
       />
-      <Route path="about"
-      element={<Layout ><About /> </Layout>}
+      <Route
+        path="about"
+        element={
+          <ProtectedLayout>
+            <About />{" "}
+          </ProtectedLayout>
+        }
       />
-      <Route path="contact"
-      element={<Layout ><Contact /> </Layout>}
+      <Route
+        path="contact"
+        element={
+          <ProtectedLayout>
+            <Contact />{" "}
+          </ProtectedLayout>
+        }
       />
-      <Route path="login"
-      element={<Login /> }
-      />
-       <Route path="signup"
-      element={<Signup /> }
-      />
+      <Route path="login" element={<Login />} />
+      <Route path="signup" element={<Signup />} />
     </Route>
   )
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router}>
-      {/* <App /> */}
-    </RouterProvider>
+    <Provider store={store}>
+      <RouterProvider router={router}>{/* <App /> */}</RouterProvider>
+    </Provider>
   </React.StrictMode>
 );
