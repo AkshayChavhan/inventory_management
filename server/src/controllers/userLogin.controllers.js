@@ -7,18 +7,14 @@ const userRegister = async (req, res) => {
             username,
             password,
             email,
-            tempAddress,
-            permentAddress,
-            contact,
             position
         } = req.body;
+
         console.log(username,
             password,
             email,
-            tempAddress,
-            permentAddress,
-            contact,
             position);
+
         if (!username |
             !password |
             !email |
@@ -50,6 +46,27 @@ const userRegister = async (req, res) => {
     }
 }
 
+const getCurrentUserData = async (req, res) => {
+    try {
+      const { username } = req.params;
+      console.log("username parameter:", username);
+  
+      if (!username) {
+        return res.status(401).json({ message: "User not logged in" });
+      }
+  
+      const userdata = await User.findOne({ username });
+  
+      return res.status(200).json({
+        message: "Userdata fetched successfully.",
+        userdata: userdata,
+      });
+    } catch (error) {
+      console.log(`Error occurs in controller as ${error}`);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  };
+
 const userLogin = async (req, res) => {
     try {
         const {
@@ -80,7 +97,7 @@ const userLogin = async (req, res) => {
         return res.status(200).json({
             message: "Login successful",
             accessToken,
-            username : existingUser.username,
+            username : existingUser,
             refreshToken,
         });
 
@@ -91,4 +108,4 @@ const userLogin = async (req, res) => {
 }
 
 
-export { userRegister , userLogin }
+export { userRegister , userLogin , getCurrentUserData }

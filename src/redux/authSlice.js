@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const loadAuthFromLocalStorage = () => {
   const storedAuth = JSON.parse(localStorage.getItem('auth'));
-  console.log("storedAuth && storedAuth.accessTokenExp >= Date.now() => ", storedAuth && storedAuth.accessTokenExp >= Date.now());
+  
   if (storedAuth && storedAuth.accessTokenExp >= Date.now()) {
     return {
       isAuthenticated: true,

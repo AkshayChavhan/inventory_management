@@ -9,7 +9,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import ProtectedLayout from "./component/ProtectedLayout.jsx";
-import { About, Contact, Home, Login, Signup } from "./component/index.js";
+import { About, Contact, Home, Login, SharedForm , Profile} from "./component/index.js";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
 
@@ -58,8 +58,16 @@ const router = createBrowserRouter(
           </ProtectedLayout>
         }
       />
+       <Route
+        path="profile"
+        element={
+          <ProtectedLayout>
+            <Profile type="profile"/>{" "}
+          </ProtectedLayout>
+        }
+      />
       <Route path="login" element={<Login />} />
-      <Route path="signup" element={<Signup />} />
+      <Route path="signup" element={<SharedForm />} />
     </Route>
   )
 );
