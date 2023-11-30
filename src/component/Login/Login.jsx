@@ -3,21 +3,32 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Input } from "../form_comp/index";
 import { useForm } from "react-hook-form";
 import API from "../../services/API";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/authSlice";
 
 function Login() {
   const navigate = useNavigate();
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState("");
 
-  const login = async (data) => {
+  const handleLogin = async (data) => {
     setError("");
     console.log("data => ", data);
-    API
-      .post("/user/login",data)
+    API.post("/user/login", data)
       .then((response) => {
         // Handle the successful response
-        console.log(response.data);
+        const { accessToken, refreshToken, message , username } = response.data;
+
+        // Store tokens securely (e.g., in localStorage or secure cookie)
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+
+
+        dispatch(login({ username, accessToken }));
+
+
+        console.log("username => ", username);
         navigate("/");
       })
       .catch((error) => {
@@ -37,9 +48,7 @@ function Login() {
             {/* <Logo width="100%" /> */}
           </span>
         </div>
-        <h2 className="text-center text-2xl font-bold leading-tight">
-          Log in
-        </h2>
+        <h2 className="text-center text-2xl font-bold leading-tight">Log in</h2>
         <p className="mt-2 text-center text-base text-black/60">
           Do not have an account?&nbsp;
           <Link
@@ -50,7 +59,7 @@ function Login() {
           </Link>
         </p>
         {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
-        <form onSubmit={handleSubmit(login)} className="mt-8">
+        <form onSubmit={handleSubmit(handleLogin)} className="mt-8">
           <div className="space-y-5">
             <Input
               label="Email: "
