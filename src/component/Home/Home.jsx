@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux'
 
 function Home({ classname=""}) {
 
-  const user = useSelector(state=> state.auth.username)
-
+  const user = useSelector(state=> state.auth)
+  console.log(user);
   return (
     <div className={`${classname}`}>
       {user?.email} :- { user?.position}

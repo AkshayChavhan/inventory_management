@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Input } from "../form_comp/index";
 import { useForm } from "react-hook-form";
-import { handleSubmitSignup, handleUpdateProfile } from "../Shared/handle";
+import { handleSubmitSignup, handleUpdateProfile, handleUpdateProfileInfo } from "../Shared/handle";
 import { useSelector } from "react-redux";
 
 function Profile() {
+  console.log('userDetails => ', userDetails);
   const navigate = useNavigate();
   const userName = useSelector((state) => state.auth.username);
   const { register, handleSubmit } = useForm();
@@ -37,19 +38,15 @@ function Profile() {
 
   const [userdetails] = useState(userName);
 
-
-
-  // const onSubmit = async (data) => {
-  //   try {
-  //     await handleUpdateProfile(data, setError, navigate);
-  //   } catch (error) {
-  //     console.error('Error updating profile:', error);
-  //     // Handle errors if needed
-  //   }
-  // };
-
-  const handleSubmitUserData = (e) =>{
+  const handleSubmitUserData = async (e) =>{
     e.preventDefault();
+    try {
+      const response = await handleUpdateProfileInfo(userDetails);
+      console.log(response);
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      // Handle errors if needed
+    }
     console.log("userDetails => ", userDetails);
   }
 
