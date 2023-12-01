@@ -2,11 +2,9 @@ import API from "../../services/API";
 
 const handleSubmitSignup = async (data, setError, navigate) => {
   setError("");
-  console.log("data => ", data);
   API.post("/user/register", data)
     .then((response) => {
       // Handle the successful response
-      console.log(response.data);
       navigate("/login");
     })
     .catch((error) => {
@@ -15,13 +13,8 @@ const handleSubmitSignup = async (data, setError, navigate) => {
     });
 };
 
-const handleUpdateProfile = async (data , setError, navigate) => {
-  console.log("handleprfole  -> " , data);
-};
-
 const handleUpdateProfileInfo = async(data) => {
   try {
-    console.log("data =>",data);
     const response = await API.put("/user/update_profile",data);
 
     // Handle the successful response
@@ -35,4 +28,4 @@ const handleUpdateProfileInfo = async(data) => {
 
 
 
-export { handleUpdateProfile, handleSubmitSignup, handleUpdateProfileInfo  }
+export { handleSubmitSignup, handleUpdateProfileInfo  }
