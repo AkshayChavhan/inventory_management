@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Input } from "../form_comp/index";
 import { useForm } from "react-hook-form";
-import { handleSubmitSignup, handleUpdateProfile, handleUpdateProfileInfo } from "../Shared/handle";
+import { handleSubmitSignup, handleUpdateProfileInfo } from "../Shared/handle";
 import { useSelector } from "react-redux";
+import useFetchUserDetails from "../useFetchUserDetails";
 
 function Profile() {
-  console.log('userDetails => ', userDetails);
   const navigate = useNavigate();
-  const userName = useSelector((state) => state.auth.username);
-  const { register, handleSubmit } = useForm();
 
   const tempAddress = {
     address1: "",
@@ -26,17 +24,13 @@ function Profile() {
     mobile: "",
   };
 
-  const [error, setError] = useState("");
-  const [userDetails, setUserDetails] = useState({
-    username: "",
-    email: "",
-    tempAddress: tempAddress,
-    permenentAddress: tempAddress,
-    contact: contactDetails,
-    position: "",
-  });
+  const {isAuthenticated, userdetail} = useFetchUserDetails();
 
-  const [userdetails] = useState(userName);
+  const [error, setError] = useState("");
+  const [userDetails, setUserDetails] = useState(userdetail);
+
+  const [userdetails] = useState(userdetail);
+  console.log("[profile] => ",userDetails)
 
   const handleSubmitUserData = async (e) =>{
     e.preventDefault();
@@ -47,8 +41,7 @@ function Profile() {
       console.error('Error updating profile:', error);
       // Handle errors if needed
     }
-    console.log("userDetails => ", userDetails);
-  }
+ }
 
   useEffect(() => {
     const { _id, __v, password, updatedAt, createdAt , ...restUserdetails } = userdetails;

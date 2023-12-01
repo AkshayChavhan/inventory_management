@@ -14,8 +14,7 @@ function Login() {
 
   const handleLogin = async (data) => {
     setError("");
-    console.log("data => ", data);
-    API.post("/user/login", data)
+   API.post("/user/login", data)
       .then((response) => {
         // Handle the successful response
         const { accessToken, refreshToken, message , username } = response.data;
@@ -28,7 +27,6 @@ function Login() {
         dispatch(login({ username, accessToken }));
 
 
-        console.log("username => ", username);
         navigate("/");
       })
       .catch((error) => {
