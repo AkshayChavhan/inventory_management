@@ -19,12 +19,13 @@ const handleUpdateProfile = async (data , setError, navigate) => {
   console.log("handleprfole  -> " , data);
 };
 
-const handleGetProfileData = async ({data :username}, setError, navigate) => {
+const handleUpdateProfileInfo = async(data) => {
   try {
-    const response = await API.get(`/user/get_user/${username}`);
+    console.log("data =>",data);
+    const response = await API.put("/user/update_profile",data);
 
     // Handle the successful response
-    console.log(response);
+    return response.data
   } catch (error) {
     // Handle errors
     console.error("Error fetching data:", error);
@@ -32,22 +33,6 @@ const handleGetProfileData = async ({data :username}, setError, navigate) => {
   }
 };
 
-// const currentUserController = async (req, res) => {
-//   try {
-//       const user = await userModel.findOne({ _id: req.body.userId });
-//       return res.status(200).send({
-//           success: true,
-//           message: "User fetched successfully.",
-//           user
-//       })
 
-//   } catch (error) {
-//       console.log(error);
-//       res.status(500).send({
-//           success: false,
-//           message: "Unable to get user"
-//       })
-//   }
-// }
 
-export { handleUpdateProfile, handleSubmitSignup, handleGetProfileData }
+export { handleUpdateProfile, handleSubmitSignup, handleUpdateProfileInfo  }

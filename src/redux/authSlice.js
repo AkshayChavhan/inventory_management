@@ -10,6 +10,7 @@ const loadAuthFromLocalStorage = () => {
       username: storedAuth.username,
       accessToken: storedAuth.accessToken,
       accessTokenExp: storedAuth.accessTokenExp,
+      userDetails:{}
     };
   }else {
     localStorage.removeItem('auth');
@@ -18,6 +19,7 @@ const loadAuthFromLocalStorage = () => {
       username: null,
       accessToken: null,
       accessTokenExp: null,
+      userDetails:{}
     };
   }
 };
@@ -47,9 +49,12 @@ const authSlice = createSlice({
       // Remove from local storage
       localStorage.removeItem('auth');
     },
+    setUserDetails: (state, action) => {
+      state.userDetails = action.payload;
+    },
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout , setUserDetails } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -10,11 +10,6 @@ const userRegister = async (req, res) => {
             position
         } = req.body;
 
-        console.log(username,
-            password,
-            email,
-            position);
-
         if (!username |
             !password |
             !email |
@@ -46,26 +41,52 @@ const userRegister = async (req, res) => {
     }
 }
 
-const getCurrentUserData = async (req, res) => {
+const updateProfileInfo = async (req, res) => {
     try {
-      const { username } = req.params;
-      console.log("username parameter:", username);
-  
-      if (!username) {
-        return res.status(401).json({ message: "User not logged in" });
-      }
-  
-      const userdata = await User.findOne({ username });
-  
-      return res.status(200).json({
-        message: "Userdata fetched successfully.",
-        userdata: userdata,
-      });
+        const {
+            username,
+            email,
+            tempAddress,
+            permenentAddress,
+            contact,
+            position
+        } = req.body;
+
+        if (!username || !email || !position) {
+            return res.status(401).json({ message: "Please enter the required details" });
+        }
+
+        // Check if the user exists
+        const existingUser = await User.findOne({ email: email });
+
+        if (existingUser) {
+            // Update the existing user
+            const updatedUser = await User.findOneAndUpdate(
+                { email: email },
+                {
+                    $set: {
+                        username: username,
+                        tempAddress: tempAddress,
+                        permenentAddress: permenentAddress,
+                        contact: contact,
+                        position: position
+                    }
+                },
+                { new: true }
+            );
+
+            return res.status(200).json({
+                message: "User updated successfully.",
+                userdata: updatedUser,
+            });
+        } else {
+            return res.status(404).json({ message: "User not found" });
+        }
     } catch (error) {
-      console.log(`Error occurs in controller as ${error}`);
-      return res.status(500).json({ message: "Internal Server Error" });
+        console.log(`Error occurs in controller as ${error}`);
+        return res.status(500).json({ message: "Internal Server Error" });
     }
-  };
+};
 
 const userLogin = async (req, res) => {
     try {
@@ -73,8 +94,8 @@ const userLogin = async (req, res) => {
             password,
             email,
         } = req.body;
-        console.log(password,email);
-        if (!password |!email) {
+        console.log(password, email);
+        if (!password | !email) {
             return res.status(401).
                 json({ message: "Please enter the required details" })
         }
@@ -97,7 +118,7 @@ const userLogin = async (req, res) => {
         return res.status(200).json({
             message: "Login successful",
             accessToken,
-            username : existingUser,
+            username: existingUser,
             refreshToken,
         });
 
@@ -107,5 +128,33 @@ const userLogin = async (req, res) => {
     }
 }
 
+const getUserDetail = async (req,res) => {
+    try {
+        const { username } = req.params;
 
-export { userRegister , userLogin , getCurrentUserData }
+        if (!username) {
+            return res.status(401).
+                json({ message: "Username more found" })
+        }
+
+        const existingUser = await User.findOne({
+            $or: [{ username }]
+        })
+
+        const { updatedAt , __v , _id , createdAt , ...userdata } = existingUser.toObject();
+
+        return res.
+        status(200).
+        json({
+            message: "User details fetch successfully.",
+            userdata
+     });
+
+    }  catch (error) {
+        console.log(`Error occurs in controller as ${error}`);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
+
+export { userRegister, userLogin, updateProfileInfo , getUserDetail }

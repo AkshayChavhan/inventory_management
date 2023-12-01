@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Input } from "../form_comp/index";
 
 import { useForm } from "react-hook-form";
-import { handleUpdateProfile, handleSubmitSignup , handleGetProfileData } from "./handle";
+import {  handleSubmitSignup  } from "./handle";
 import { useSelector } from "react-redux";
 
 function SharedForm({ type = "signup", ...options }) {
